@@ -21,9 +21,9 @@ export class Volatility extends Component {
     return (
       <>
         <h1>How much volatility can you tolerate?</h1>
-        <input type="radio" name="volatility" value="10%" onChange={handleChange('volatility')}/>Less than 10%
-        <input type="radio" name="volatility" value="15%" onChange={handleChange('volatility')}/>More than 10% but less than 20%
-        <input type="radio" name="volatility" value="20%" onChange={handleChange('volatility')}/>More than 20%
+        <input type="radio" name="volatility" value="low" onChange={handleChange('volatility')}/>Less than 10%
+        <input type="radio" name="volatility" value="medium" onChange={handleChange('volatility')}/>More than 10% but less than 20%
+        <input type="radio" name="volatility" value="high" onChange={handleChange('volatility')}/>More than 20%
         <div>
           <button label="prev" onClick={this.back}>Back</button>
           <button label="next" onClick={this.continue}>Next</button>

@@ -28,7 +28,7 @@ export class Sector extends Component {
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="consumer disc"/>Consumer discretionary
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="consumer staples"/>Consumer staples
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="healthcare"/>Healthcare
-        <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="financials"/>Financials<br/>
+        <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="financial"/>Financials<br/>
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="telecom"/>Telecommunication services
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="utilities"/>Utilities
         <input type="checkbox" name="sector" onChange={handleCheckbox('sector')} value="real estate"/>Real estate

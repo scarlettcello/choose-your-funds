@@ -12,11 +12,14 @@ export class Result extends Component {
   }
 
   render() {
-    const { values } = this.props;
+    const { yourFunds } = this.props;
 
     return (
       <>
         <h1>The funds for you are: </h1>
+        <ul>
+          {yourFunds.map(item => <li key={item.id}>{item.name}</li>)}
+        </ul>
         <button label="Start Over" onClick={this.startOver}>Start over</button>
       </>
     )
