@@ -1,0 +1,175 @@
+{
+  "funds": [
+    {
+      "id": 1,
+      "name": "CIBC Balanced Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "low",
+      "sector": ["financial", "telecom", "utilities"],
+      "region": "Canada"
+    },
+    {
+      "id": 2,
+      "name": "CIBC Dividend Income Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "low",
+      "sector": ["financial", "materials", "utilities"],
+      "region": "Canada"
+    },
+    {
+      "id": 3,
+      "name": "CIBC Canadian Equity fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "medium",
+      "sector": ["financial", "materials", "utilities", "telecom"],
+      "region": "Canada"
+    },
+    {
+      "id": 4,
+      "name": "CIBC Global Equity Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "medium",
+      "sector": ["financial", "healthcare", "telecom", "utilities"],
+      "region": "global"
+    },
+    {
+      "id": 5,
+      "name": "CIBC European Equity Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "low",
+      "sector": ["financial", "materials", "utilities"],
+      "region": "Europe"
+    },
+    {
+      "id": 6,
+      "name": "Canadian Small-Cap Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "high",
+      "sector": ["financial", "healthcare", "utilities"],
+      "region": "Canada"
+    },
+    {
+      "id": 7,
+      "name": "CIBC Canadian Real Estate Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "medium",
+      "sector": ["real estate"],
+      "region": "Canada"
+    },
+    {
+      "id": 8,
+      "name": "CIBC Global Technology Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "high",
+      "sector": ["financial", "healthcare", "telecom"],
+      "region": "global"
+    },
+    {
+      "id": 9,
+      "name": "CIBC Precious Metals Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "high",
+      "sector": ["materials"],
+      "region": "Canada"
+    },
+    {
+      "id": 10,
+      "name": "CIBC Canadian Index Fund",
+      "minimum": "500",
+      "managed": false,
+      "volatility": "medium",
+      "sector": ["energy", "financial", "telecom", "utilities"],
+      "region": "Canada"
+    },
+    {
+      "id": 11,
+      "name": "CIBC Nasdaq Index Fund",
+      "minimum": "500",
+      "managed": false,
+      "volatility": "medium",
+      "sector": ["manufacturing", "telecom", "consumer disc"],
+      "region": "us"
+    },
+    {
+      "id": 12,
+      "name": "CIBC International Index Fund",
+      "minimum": "500",
+      "managed": false,
+      "volatility": "medium",
+      "sector": ["manufacturing", "consumer disc", "healthcare"],
+      "region": "global"
+    },
+    {
+      "id": 13,
+      "name": "CIBC Emerging Index Fund",
+      "minimum": "500",
+      "managed": false,
+      "volatility": "high",
+      "sector": ["manufacturing", "consumer disc"],
+      "region": "emerging"
+    },
+    {
+      "id": 14,
+      "name": "CIBC European Index Fund",
+      "minimum": "500",
+      "managed": false,
+      "volatility": "medium",
+      "sector": ["energy", "consumer disc", "healthcare"],
+      "region": "emerging"
+    },
+    {
+      "id": 15,
+      "name": "CIBC Money Market Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "low",
+      "sector": ["financial"],
+      "region": "Canada"
+    },
+    {
+      "id": 16,
+      "name": "CIBC Short-Term Income Fund",
+      "minimum": "500",
+      "managed": true,
+      "volatility": "low",
+      "sector": ["financial"],
+      "region": "Canada"
+    },
+    {
+      "id": 17,
+      "name": "CIBC Active Investment Grade Floating Rate Bond ETF",
+      "minimum": "none",
+      "managed": false,
+      "volatility": "low",
+      "sector": ["financial"],
+      "region": "Canada"
+    },
+    {
+      "id": 18,
+      "name": "CIBC Canadian Bond Index ETF",
+      "minimum": "none",
+      "managed": false,
+      "volatility": "low",
+      "sector": ["energy", "financial"],
+      "region": "Canada"
+    },
+    {
+      "id": 19,
+      "name": "CIBC Sustainable Canadian Core Plus Bond Fund",
+      "minimum": "none",
+      "managed": false,
+      "volatility": "low",
+      "sector": ["financial"],
+      "region": "Canada"
+    }
+  ]
+}
