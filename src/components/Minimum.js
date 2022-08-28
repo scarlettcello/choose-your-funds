@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
 export class Minimum extends Component {
   continue = e => {
@@ -19,16 +21,30 @@ export class Minimum extends Component {
   render() {
     const {values, handleChange} = this.props;
     return (
-      <>
+      <div className="container">
         <h1>How much would you like to invest initially?</h1>
-        <input type="radio" name="minimum" value="none" onChange={handleChange('minimum')}/>No minimum
-        <input type="radio" name="minimum" value="500" onChange={handleChange('minimum')}/>At least $500
-        <div>
-          <button label="prev" onClick={this.back}>Back</button>
-          <button label="next" onClick={this.continue}>Next</button>
-        </div>      
-      </>
-    )
+        <div className="options">
+          <label htmlFor="minimum-none">
+            <input type="radio" id="minimum-none" name="minimum" value="none" onChange={handleChange('minimum')}/>
+            No minimum
+          </label>
+          <label htmlFor="minimum-500">
+            <input type="radio" id="minimum-500" name="minimum" value="500" onChange={handleChange('minimum')}/>
+            At least $500
+          </label>
+        </div>
+        <div className="steps">
+          <div className="btn-area" onClick={this.back}>
+            <FontAwesomeIcon icon={faAnglesLeft} className="secondary"/>
+            <button className="secondary" label="prev">Back</button>
+          </div>
+          <div className="btn-area" onClick={this.continue}>
+            <button className="primary" label="next" >Next</button>
+            <FontAwesomeIcon icon={faAnglesRight} className="primary" />
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

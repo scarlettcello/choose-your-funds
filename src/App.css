@@ -1,0 +1,109 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  color: #333333;
+}
+
+.container {
+  width: 400px;
+  margin: auto;
+  position: relative;
+  padding: 20px;
+}
+
+.btn-start {
+  border: 1px solid #c41f3e;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+  padding: 10px 0;
+}
+
+.btn-start:focus, .btn-start:hover{
+  cursor: pointer;
+}
+
+.options {
+  margin: 50px 0;
+}
+
+.options label {
+  background-color: #fff;
+  border: 1px solid #c41f3e;
+  border-radius: 5px;
+  display: block;
+  color: #c41f3e;
+  padding: 10px 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.options label:focus, .options label:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #c41f3e;
+}
+
+.option label:focus, .option label:hover {
+  cursor: pointer;
+}
+
+.options .is-checked {
+  color: #fff;
+  background-color: #c41f3e;
+}
+
+.options input[type="radio"], .options input[type="checkbox"]{
+  opacity:0.011;
+  z-index:100;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-area {
+  display: flex;
+  border: none;
+  padding: 10px 20px;
+}
+
+.btn-area:focus, .btn-area:hover {
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #fff;
+  border: none;
+  color: #c41f3e;
+}
+
+.secondary {
+  background-color: #fff;
+  border: none;
+  color: #333333;
+}
+
+.primary:focus, .primary:hover, .secondary:focus, .secondary:hover {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+ul {
+  color: #333333;
+  list-style: none;
+  line-height: 200%;
+}
+
+ul li:before {
+  content: "\2022"; 
+  color: #c41f3e; 
+  display: inline-block; 
+  width: 1em; 
+  margin-left: -1em; 
+}

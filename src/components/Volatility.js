@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
 export class Volatility extends Component {
   continue = e => {
@@ -18,17 +20,32 @@ export class Volatility extends Component {
 
   render() {
     const {values, handleChange} = this.props;
+
     return (
-      <>
+      <div className='container'>
         <h1>How much volatility can you tolerate?</h1>
-        <input type="radio" name="volatility" value="low" onChange={handleChange('volatility')}/>Less than 10%
-        <input type="radio" name="volatility" value="medium" onChange={handleChange('volatility')}/>More than 10% but less than 20%
-        <input type="radio" name="volatility" value="high" onChange={handleChange('volatility')}/>More than 20%
-        <div>
-          <button label="prev" onClick={this.back}>Back</button>
-          <button label="next" onClick={this.continue}>Next</button>
+        <div className="options">
+          <label htmlFor="low">
+            <input type="radio" id="low" name="volatility" value="low" onChange={handleChange('volatility')}/>Less than 10%
+          </label>
+          <label htmlFor='medium'>
+            <input type="radio" id="medium" name="volatility" value="medium" onChange={handleChange('volatility')}/>Between 10% and 20%
+          </label>
+          <label htmlFor='high'>
+            <input type="radio" id="high" name="volatility" value="high" onChange={handleChange('volatility')}/>More than 20%
+          </label>
+        </div>
+        <div className="steps">
+          <div className="btn-area" onClick={this.back}>
+            <FontAwesomeIcon icon={faAnglesLeft} className="secondary"/>
+            <button className="secondary" label="prev">Back</button>
+          </div>
+          <div className="btn-area" onClick={this.continue}>
+            <button className="primary" label="next" >Next</button>
+            <FontAwesomeIcon icon={faAnglesRight} className="primary" />
+          </div>
         </div>      
-      </>
+      </div>
     )
   }
 }

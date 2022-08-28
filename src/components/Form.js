@@ -64,18 +64,39 @@ export class Form extends Component {
   startOver = e => {
     const { step } = this.state;
     this.setState({
-      step: step - 5
+      step: step - 6
     })
   }
 
   handleChange = input => e => {
-    this.setState({[input]: e.target.value})
+    this.setState({[input]: e.target.value});
+    let options = document.querySelectorAll('input[type=radio]');
+    options.forEach(el => {
+      if (el.checked) {
+        el.parentNode.classList.add('is-checked');
+      } else {
+        el.parentNode.classList.remove('is-checked');
+      }
+    });
   }
 
   handleCheckbox = input => e => {
+    let options = document.querySelectorAll('input[type=checkbox]');
     let checked = document.querySelectorAll('input:checked');
     let values = [];
-    checked.forEach(el => values.push(el.value));
+
+    options.forEach(el => {
+      if (el.checked) {
+        el.parentNode.classList.add('is-checked');
+      } else {
+        el.parentNode.classList.remove('is-checked');
+      }
+    });
+
+    checked.forEach(el => {
+      values.push(el.value);
+    });
+
     this.setState({
       sector: values
     })

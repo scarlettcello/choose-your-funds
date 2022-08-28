@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
 export class Managed extends Component {
   continue = e => {
@@ -18,16 +20,29 @@ export class Managed extends Component {
 
   render() {
     const {values, handleChange} = this.props;
+    
     return (
-      <>
-        <h1>Do you want your funds to be managed by professionals?</h1>
-        <input type="radio" name="managed" value="true" onChange={handleChange('managed')} />Managed
-        <input type="radio" name="managed" value="false" onChange={handleChange('managed')}/>Unmanaged
-        <div>
-          <button label="prev" onClick={this.back}>Back</button>
-          <button label="next" onClick={this.continue}>Next</button>
-        </div>      
-      </>
+      <div className="container">
+        <h1>Do you want your funds managed by professionals?</h1>
+        <div className="options">
+          <label htmlFor="managed">
+          <input type="radio" id="managed" name="managed" value="true" onChange={handleChange('managed')} />Managed
+          </label>
+          <label htmlFor="unmanaged">
+          <input type="radio" id="unmanaged" name="managed" value="false" onChange={handleChange('managed')}/>Unmanaged
+          </label>
+        </div>
+        <div className="steps">
+          <div className="btn-area" onClick={this.back}>
+            <FontAwesomeIcon icon={faAnglesLeft} className="secondary"/>
+            <button className="secondary" label="prev">Back</button>
+          </div>
+          <div className="btn-area" onClick={this.continue}>
+            <button className="primary" label="next" >Next</button>
+            <FontAwesomeIcon icon={faAnglesRight} className="primary" />
+          </div>
+        </div>  
+      </div>
     )
   }
 }

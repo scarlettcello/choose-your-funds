@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
 export class Region extends Component {
   continue = e => {
@@ -24,18 +26,36 @@ export class Region extends Component {
   render() {
     const {values, handleChange} = this.props;
     return (
-      <>
+      <div className='container'>
         <h1>Which region of the globe would you like to invest?</h1>
-        <input type="radio" name="region" value="Canada" onChange={handleChange('region')}/>Canada
-        <input type="radio" name="region" value="US" onChange={handleChange('region')}/>US
-        <input type="radio" name="region" value="Europe" onChange={handleChange('region')}/>Europe
-        <input type="radio" name="region" value="Emerging" onChange={handleChange('region')}/>Emerging
-        <input type="radio" name="region" value="Global" onChange={handleChange('region')}/>Global
-        <div>
-          <button label="prev" onClick={this.back}>Back</button>
-          <button label="next" onClick={this.showResult}>Finish</button>
+        <div className="options">
+          <label htmlFor='canada'>
+            <input type="radio" id="canada" name="region" value="Canada" onChange={handleChange('region')}/>Canada
+          </label>
+          <label htmlFor="us">
+            <input type="radio" id="us" name="region" value="US" onChange={handleChange('region')}/>US
+          </label>
+          <label htmlFor='europe'>
+            <input type="radio" id="europe" name="region" value="Europe" onChange={handleChange('region')}/>Europe
+          </label>
+          <label htmlFor='emerging'>
+            <input type="radio" id="emerging" name="region" value="Emerging" onChange={handleChange('region')}/>Emerging
+          </label>
+          <label htmlFor='global'>
+            <input type="radio" id="global" name="region" value="Global" onChange={handleChange('region')}/>Global
+          </label>     
+        </div>        
+        <div className="steps">
+          <div className="btn-area" onClick={this.back}>
+            <FontAwesomeIcon icon={faAnglesLeft} className="secondary"/>
+            <button className="secondary" label="prev">Back</button>
+          </div>
+          <div className="btn-area" onClick={this.continue}>
+            <button className="primary" label="finish" >Finish</button>
+            <FontAwesomeIcon icon={faAnglesRight} className="primary" />
+          </div>
         </div>      
-      </>
+      </div>
     )
   }
 }
