@@ -4,31 +4,42 @@ import './App.css';
 
 const query = `
   {
-    fundCollection {
+    sectorCollection {
       items {
-        fundName
-        fundCode
-        minInvest
-        managed
-        type
-        volatility
-        region
-        pageLink
+        sector
+        linkedFrom {
+          fundCollection {
+            items {
+              fundCode
+              fundName
+              managed
+              minInvest
+              pageLink
+              region
+              type
+              volatility
+            }
+          }
+        }
       }
     }
   }
 `
+
 function App() {
-  const [fund, setFund] = useState(null);
+  const spaceId = process.env.REACT_APP_CONTENTFUL_SPACE_ID;
+  const apiKey = process.env.REACT_APP_CONTENTFUL_API_KEY;
+
+  const [funds, setFunds] = useState(null);
 
   useEffect(() => {
     window
-      .fetch(`https://graphql.contentful.com/content/v1/spaces/{process.env.CONTENTFUL_SPACE_ID}/`, {
+      .fetch(`https://graphql.contentful.com/content/v1/spaces/${spaceId}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           // Authenticate the request
-          Authorization: `Bearer {process.env.CONTENTFUL_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         // send the GraphQL query
         body: JSON.stringify({ query }),
@@ -40,18 +51,17 @@ function App() {
         }
 
         // rerender the entire component with new data
-        setFund(data.fundCollection.items[0]);
+        setFunds(data.sectorCollection.items);
       });
   }, []);
 
-  if (!fund) {
+  if (!funds) {
     return "Loading...";
   }
 
   return (
     <>
-      {console.log(fund)}
-      <Form />
+      <Form fundsData={funds} />
     </>
   );
 }

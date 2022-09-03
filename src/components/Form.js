@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import Start from './Start';
-import Minimum from './Minimum';
+import MinInvest from './MinInvest';
 import Managed from './Managed';
+import Type from './Type';
 import Volatility from './Volatility';
 import Sector from './Sector';
 import Region from './Region';
 import Result from './Result';
-import data from '../db.json';
 
-function Form () {
+function Form ({fundsData}) {
   const [formValue, setFormValue] = useState({
     step: 0,
-    minimum: "none",
+    minInvest: "",
     managed: true,
+    type: "",
     volatility: 0,
     sector: [],
     region: '',
     yourFunds: {}
   });
 
-  let {step, minimum, managed, volatility, sector, region} = formValue;
+  let {step, minInvest, managed, type, volatility, sector, region} = formValue;
 
   const nextStep = () => {
     setFormValue((prevState) => {
@@ -39,45 +40,56 @@ function Form () {
     });
   }
 
-  const showResult = () => {
-    nextStep();
-    const fundsData = JSON.stringify(data);
-    const funds = JSON.parse(fundsData).funds;
-    let managedState = managed; 
-    let isManaged = (managedState === "true");
-    let filtered = funds
-      .filter(el => el.minimum === minimum)
-      .filter(el => el.managed === isManaged)
-      .filter(el => el.volatility === volatility)
-      .filter(el => el.region === region);
-    let yourFunds = compareSectors(filtered, sector);
-    setFormValue((prevState) => {
-      return { 
-        ...prevState,
-        yourFunds 
-      }
-    });
-  }
-
-  const compareSectors = (funds, selectedSectors) => {
-    let matchedFunds = []
-    for (let i = 0; i < funds.length; i++) {
-      let fundsSectors = funds[i].sector;
-      let match = fundsSectors.filter(el => selectedSectors.includes(el))
-      if (match.length > 0) {
-        matchedFunds.push(funds[i]);
-      }
-    }
-    return matchedFunds;
-  }
-
   const startOver = e => {
     setFormValue((prevState) => {
       return {
         ...prevState,
-        step: step - 6
+        step: step - 7
       }
     });
+  }
+
+  const showResult = () => {
+    nextStep();
+    const funds = fundsData;
+    let managedState = managed; 
+    let isManaged = (managedState === "true"); //convert string to boolean
+    let yourFunds = fundsFilteredBySectors(funds, sector);
+    yourFunds = yourFunds
+      .filter(el => el.minInvest === minInvest)
+      .filter(el => el.managed === isManaged)
+      .filter(el => el.type === type)
+      .filter(el => el.volatility === volatility)
+      .filter(el => el.region === region);
+
+    setFormValue((prevState) => {
+      return { 
+        ...prevState,
+        yourFunds,
+      }
+    });
+  }
+
+  const fundsFilteredBySectors = (sectors, selectedSectors) => {
+    let matchedSectors = [];
+
+    for (let i = 0; i < sectors.length; i++) { //11 sectors
+      let fundSector = sectors[i].sector;
+      selectedSectors.forEach(el => {
+        if (el === fundSector) {
+          return matchedSectors.push(sectors[i].linkedFrom.fundCollection.items);
+        }
+      });
+    }
+    const finalArray = matchedSectors.flat();
+    let uniqueFunds = finalArray.reduce((unique, obj) => {
+      if (!unique.some(el => el.fundCode === obj.fundCode)) {
+        unique.push(obj);
+      }
+      return unique
+    }, []);
+
+    return uniqueFunds;
   }
 
   const handleChange = input => e => {
@@ -98,13 +110,47 @@ function Form () {
     });
   }
 
+  const handleCheckboxAll = input => e => {
+    const checkAll = document.getElementById('all');
+    let options = document.querySelectorAll('input[type=checkbox]');
+
+    checkAll.checked ? options.forEach(el => el.checked = true) : options.forEach(el => el.checked = false);
+
+    options.forEach(el => {
+      if (el.checked ) {
+        el.parentNode.classList.add('is-checked');
+      } else {
+        el.parentNode.classList.remove('is-checked');
+      }
+    });
+
+    if (options.checked < options.length) {
+      checkAll.checked = false;
+    }
+
+    let checked = document.querySelectorAll('input:checked');
+    let values = [];
+
+    checked.forEach(el => {
+      values.push(el.value);
+    });
+
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        sector: values
+      }
+    });
+
+  }
+
   const handleCheckbox = input => e => {
     let options = document.querySelectorAll('input[type=checkbox]');
     let checked = document.querySelectorAll('input:checked');
     let values = [];
 
     options.forEach(el => {
-      if (el.checked) {
+      if (el.checked ) {
         el.parentNode.classList.add('is-checked');
       } else {
         el.parentNode.classList.remove('is-checked');
@@ -130,7 +176,7 @@ function Form () {
       )
     case 1:
       return (
-        <Minimum 
+        <MinInvest 
           prevStep={prevStep} 
           nextStep={nextStep} 
           handleChange={handleChange} />
@@ -144,189 +190,44 @@ function Form () {
       )
     case 3:
       return (
-        <Volatility 
+        <Type 
           prevStep={prevStep} 
           nextStep={nextStep} 
           handleChange={handleChange} />
       )
     case 4:
       return (
+        <Volatility 
+          prevStep={prevStep} 
+          nextStep={nextStep} 
+          handleChange={handleChange} />
+      )
+    case 5:
+      return (
         <Sector 
           prevStep={prevStep} 
           nextStep={nextStep} 
-          handleCheckbox={handleCheckbox} />
+          formValue={formValue}
+          handleCheckbox={handleCheckbox}
+          handleCheckboxAll={handleCheckboxAll} />
       )
-    case 5:
+    case 6:
       return (
         <Region 
           prevStep={prevStep} 
           showResult={showResult} 
           handleChange={handleChange} />
       )
-    case 6:
+    case 7:
       return (
-        <Result startOver={startOver} formValue={formValue}/>
+        <Result 
+          prevStep={prevStep}
+          startOver={startOver}
+          formValue={formValue}/>
       )
     default:
       return <h1>Default</h1>
   }
 }  
-
-// export class Form extends Component {
-//   state = {
-//     step: 0,
-//     minimum: "none",
-//     managed: true,
-//     volatility: 0,
-//     sector: [],
-//     region: '',
-//     yourFunds: {}
-//   }
-
-//   nextStep = () => {
-//     const { step } = this.state;
-//     this.setState({
-//       step: step + 1
-//     });
-//   }
-
-//   prevStep = () => {
-//     const { step } = this.state;
-//     this.setState({
-//       step: step - 1
-//     })
-//   }
-
-//   showResult = () => {
-//     this.nextStep();
-//     const fundsData = JSON.stringify(data);
-//     const funds = JSON.parse(fundsData).funds;
-//     let managedState = this.state.managed; 
-//     let isManaged = (managedState === "true");
-//     let filtered = funds
-//       .filter(el => el.minimum == this.state.minimum)
-//       .filter(el => el.managed == isManaged)
-//       .filter(el => el.volatility === this.state.volatility)
-//       .filter(el => el.region == this.state.region);
-//     let yourFunds = this.compareSectors(filtered, this.state.sector);
-//     this.setState({ yourFunds })
-//   }
-
-//   compareSectors = (funds, selectedSectors) => {
-//     let matchedFunds = []
-//     for (let i = 0; i < funds.length; i++) {
-//       let fundsSectors = funds[i].sector;
-//       let match = fundsSectors.filter(el => selectedSectors.includes(el))
-//       if (match.length > 0) {
-//         matchedFunds.push(funds[i]);
-//       }
-//     }
-//     return matchedFunds;
-//   }
-
-//   startOver = e => {
-//     const { step } = this.state;
-//     this.setState({
-//       step: step - 6
-//     })
-//   }
-
-//   handleChange = input => e => {
-//     this.setState({[input]: e.target.value});
-//     let options = document.querySelectorAll('input[type=radio]');
-//     options.forEach(el => {
-//       if (el.checked) {
-//         el.parentNode.classList.add('is-checked');
-//       } else {
-//         el.parentNode.classList.remove('is-checked');
-//       }
-//     });
-//   }
-
-//   handleCheckbox = input => e => {
-//     let options = document.querySelectorAll('input[type=checkbox]');
-//     let checked = document.querySelectorAll('input:checked');
-//     let values = [];
-
-//     options.forEach(el => {
-//       if (el.checked) {
-//         el.parentNode.classList.add('is-checked');
-//       } else {
-//         el.parentNode.classList.remove('is-checked');
-//       }
-//     });
-
-//     checked.forEach(el => {
-//       values.push(el.value);
-//     });
-
-//     this.setState({
-//       sector: values
-//     })
-//   }
-
-//   render() {
-//     const { step } = this.state;
-//     const { minimum, managed, volatility, sector, region } = this.state;
-//     const { yourFunds } = this.state;
-//     const values = { minimum, managed, volatility, sector, region }
-
-//     switch(step) {
-//       case 0:
-//         return (
-//           <Start 
-//             nextStep={this.nextStep} 
-//             handleChange={this.handleChange} 
-//             values={values} />
-//         )
-//       case 1:
-//         return (
-//           <Minimum 
-//             prevStep={this.prevStep} 
-//             nextStep={this.nextStep} 
-//             handleChange={this.handleChange} 
-//             values={values} />
-//         )
-//       case 2:
-//         return (
-//           <Managed 
-//             prevStep={this.prevStep} 
-//             nextStep={this.nextStep} 
-//             handleChange={this.handleChange} 
-//             values={values} />
-//         )
-//       case 3:
-//         return (
-//           <Volatility 
-//             prevStep={this.prevStep} 
-//             nextStep={this.nextStep} 
-//             handleChange={this.handleChange} 
-//             values={values} />
-//         )
-//       case 4:
-//         return (
-//           <Sector 
-//             prevStep={this.prevStep} 
-//             nextStep={this.nextStep} 
-//             handleCheckbox={this.handleCheckbox} 
-//             values={values} />
-//         )
-//       case 5:
-//         return (
-//           <Region 
-//             prevStep={this.prevStep} 
-//             showResult={this.showResult} 
-//             handleChange={this.handleChange} 
-//             values={values} />
-//         )
-//       case 6:
-//         return (
-//           <Result startOver={this.startOver} yourFunds={yourFunds}/>
-//         )
-//       default:
-//         return <h1>Default</h1>
-//     }
-//   }
-// }
 
 export default Form;

@@ -33,6 +33,9 @@ function Region ({showResult, prevStep, handleChange}) {
         <label htmlFor='emerging'>
           <input type="radio" id="emerging" name="region" value="Emerging" onChange={handleChange('region')}/>Emerging
         </label>
+        <label htmlFor='asia-pacific'>
+          <input type="radio" id="asia-pacific" name="region" value="Asia-Pacific" onChange={handleChange('region')}/>Asia Pacific
+        </label>
         <label htmlFor='global'>
           <input type="radio" id="global" name="region" value="Global" onChange={handleChange('region')}/>Global
         </label>     

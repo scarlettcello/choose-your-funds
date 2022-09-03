@@ -22,13 +22,24 @@ function Volatility ({nextStep, prevStep, handleChange}) {
       <h1>How much volatility can you tolerate?</h1>
       <div className="options">
         <label htmlFor="low">
-          <input type="radio" id="low" name="volatility" value="low" onChange={handleChange('volatility')}/>Less than 10%
+          <input type="radio" id="low" name="volatility" value="Low" 
+          onChange={handleChange('volatility')}/>Low
         </label>
-        <label htmlFor='medium'>
-          <input type="radio" id="medium" name="volatility" value="medium" onChange={handleChange('volatility')}/>Between 10% and 20%
+        <label htmlFor="low-med">
+          <input type="radio" id="low-med" name="volatility" value="Low-medium" 
+          onChange={handleChange('volatility')}/>Low to Medium
+        </label>
+        <label htmlFor='med'>
+          <input type="radio" id="med" name="volatility" value="Medium" 
+          onChange={handleChange('volatility')}/>Medium
+        </label>
+        <label htmlFor='med-high'>
+          <input type="radio" id="med-high" name="volatility" value="Medium-high" 
+          onChange={handleChange('volatility')}/>Medium to High
         </label>
         <label htmlFor='high'>
-          <input type="radio" id="high" name="volatility" value="high" onChange={handleChange('volatility')}/>More than 20%
+          <input type="radio" id="high" name="volatility" value="High" 
+          onChange={handleChange('volatility')}/>High
         </label>
       </div>
       <div className="steps">

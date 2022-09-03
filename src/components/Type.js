@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
-function Managed ({nextStep, prevStep, handleChange}) {
+function Type ({nextStep, prevStep, handleChange}) {
   const next = e =>{  
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');
@@ -19,13 +19,16 @@ function Managed ({nextStep, prevStep, handleChange}) {
 
   return (
     <div className="container">
-      <h1>Do you want your funds actively managed by professionals?</h1>
+      <h1>In which asset type would you like to invest?</h1>
       <div className="options">
-        <label htmlFor="managed">
-        <input type="radio" id="managed" name="managed" value="true" onChange={handleChange('managed')} />Managed
+        <label htmlFor="equity">
+          <input type="radio" id="equity" name="type" value="Equity" onChange={handleChange('type')} />Equity
         </label>
-        <label htmlFor="unmanaged">
-        <input type="radio" id="unmanaged" name="managed" value="false" onChange={handleChange('managed')}/>Unmanaged
+        <label htmlFor="fixed-income">
+          <input type="radio" id="fixed-income" name="type" value="Fixed Income" onChange={handleChange('type')}/>Fixed Income
+        </label>
+        <label htmlFor="balanced">
+          <input type="radio" id="balanced" name="type" value="Balanced" onChange={handleChange('type')}/>Balanced
         </label>
       </div>
       <div className="steps">
@@ -42,4 +45,4 @@ function Managed ({nextStep, prevStep, handleChange}) {
   )
 }
 
-export default Managed;
+export default Type;

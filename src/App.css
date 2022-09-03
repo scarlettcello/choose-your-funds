@@ -4,6 +4,11 @@ body {
 
 h1 {
   color: #333333;
+  font-size: 28px;
+}
+
+h2 {
+  color: #696969;
 }
 
 .container {
@@ -49,6 +54,8 @@ h1 {
 
 .option label:focus, .option label:hover {
   cursor: pointer;
+  color: #fff;
+  background-color: #c41f3e;
 }
 
 .options .is-checked {
@@ -56,9 +63,23 @@ h1 {
   background-color: #c41f3e;
 }
 
-.options input[type="radio"], .options input[type="checkbox"]{
+.options input[type="radio"], .options input[type="checkbox"] {
   opacity:0.011;
   z-index:100;
+}
+
+.options .check-all {
+  border: none;
+  text-align: left;
+}
+
+.options .check-all:focus, .options .check-all:hover, .options .check-all.is-checked {
+  background-color: #fff;
+  color:#c41f3e;
+}
+
+.options .check-all input[type="checkbox"] {
+  opacity: 1;
 }
 
 .steps {
