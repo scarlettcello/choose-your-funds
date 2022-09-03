@@ -15,12 +15,13 @@ function Form ({fundsData}) {
     managed: true,
     type: "",
     volatility: 0,
-    sector: [],
+    equitySectors: [],
+    fixedIncomeSectors: [],
     region: '',
     yourFunds: {}
   });
 
-  let {step, minInvest, managed, type, volatility, sector, region} = formValue;
+  let {step, minInvest, managed, volatility, equitySectors, fixedIncomeSectors, region} = formValue;
 
   const nextStep = () => {
     setFormValue((prevState) => {
@@ -49,49 +50,6 @@ function Form ({fundsData}) {
     });
   }
 
-  const showResult = () => {
-    nextStep();
-    const funds = fundsData;
-    let managedState = managed; 
-    let isManaged = (managedState === "true"); //convert string to boolean
-    let yourFunds = fundsFilteredBySectors(funds, sector);
-    yourFunds = yourFunds
-      .filter(el => el.minInvest === minInvest)
-      .filter(el => el.managed === isManaged)
-      .filter(el => el.type === type)
-      .filter(el => el.volatility === volatility)
-      .filter(el => el.region === region);
-
-    setFormValue((prevState) => {
-      return { 
-        ...prevState,
-        yourFunds,
-      }
-    });
-  }
-
-  const fundsFilteredBySectors = (sectors, selectedSectors) => {
-    let matchedSectors = [];
-
-    for (let i = 0; i < sectors.length; i++) { //11 sectors
-      let fundSector = sectors[i].sector;
-      selectedSectors.forEach(el => {
-        if (el === fundSector) {
-          return matchedSectors.push(sectors[i].linkedFrom.fundCollection.items);
-        }
-      });
-    }
-    const finalArray = matchedSectors.flat();
-    let uniqueFunds = finalArray.reduce((unique, obj) => {
-      if (!unique.some(el => el.fundCode === obj.fundCode)) {
-        unique.push(obj);
-      }
-      return unique
-    }, []);
-
-    return uniqueFunds;
-  }
-
   const handleChange = input => e => {
     setFormValue((prevState) => {
       return {
@@ -111,22 +69,37 @@ function Form ({fundsData}) {
   }
 
   const handleCheckboxAll = input => e => {
-    const checkAll = document.getElementById('all');
-    let options = document.querySelectorAll('input[type=checkbox]');
+    const checkAllEq = document.getElementById('all-eq');
+    const checkAllFI = document.getElementById('all-fi');
+    const eqOptions = document.querySelectorAll('input[name=equitySectors]');
+    const fIOptions = document.querySelectorAll('input[name=fixedIncomeSectors]');
 
-    checkAll.checked ? options.forEach(el => el.checked = true) : options.forEach(el => el.checked = false);
+    console.log(eqOptions);
+    console.log(fIOptions);
+    console.log(checkAllEq.checked);
 
-    options.forEach(el => {
-      if (el.checked ) {
-        el.parentNode.classList.add('is-checked');
-      } else {
-        el.parentNode.classList.remove('is-checked');
-      }
-    });
+    // If "Select All" checkbox is checked, mark all options as checked and add 'is-checked' class
+    // If "Select All" checkbox is unchecked, mark all options as unchecked and remove 'is-checked' class
 
-    if (options.checked < options.length) {
-      checkAll.checked = false;
+    if (checkAllEq.checked) {
+      eqOptions.forEach(el => el.checked = true);
+      eqOptions.forEach(el => el.parentNode.classList.add('is-checked'));
+    } else {
+      eqOptions.forEach(el => el.checked = false);
+      eqOptions.forEach(el =>el.parentNode.classList.remove('is-checked'));
     }
+
+    if (checkAllFI.checked) {
+      fIOptions.forEach(el => el.checked = true);
+      fIOptions.forEach(el => el.parentNode.classList.add('is-checked'));
+    } else {
+      fIOptions.forEach(el => el.checked = false);
+      fIOptions.forEach(el => el.parentNode.classList.remove('is-checked'));
+    }
+
+    // If at least one option is de-selected, deselect "Select All" checkbox as well
+    if (eqOptions.checked < eqOptions.length) checkAllEq.checked = false;
+    if (fIOptions.checked < fIOptions.length) checkAllFI.checked = false;
 
     let checked = document.querySelectorAll('input:checked');
     let values = [];
@@ -141,7 +114,6 @@ function Form ({fundsData}) {
         sector: values
       }
     });
-
   }
 
   const handleCheckbox = input => e => {
@@ -164,9 +136,68 @@ function Form ({fundsData}) {
     setFormValue((prevState) => {
       return {
         ...prevState,
-        sector: values
+        equitySectors: values,
+        fixedIncomeSectors: values
       }
     });
+  }
+
+  const showResult = () => {
+    nextStep();
+    const funds = fundsData;
+
+    let managedState = managed; 
+    let isManaged = (managedState === "true");
+    let filtered = funds
+      .filter(el => el.minInvest === minInvest)
+      .filter(el => el.managed === isManaged)
+      .filter(el => el.volatility === volatility)
+      .filter(el => el.region === region);
+
+    let yourFunds = compareSectors(filtered, equitySectors, fixedIncomeSectors);
+    
+    setFormValue((prevState) => {
+      return { 
+        ...prevState,
+        yourFunds 
+      }
+    });
+  }
+
+  const compareSectors = (funds, eqSectors, fISectors) => {
+    let filteredFundsSectors = [];
+    let match = [];
+    let matchedFunds = [];
+
+    // looping through funds filtered by other parameters
+    for (let i = 0; i < funds.length; i++) {
+
+      // Check if each item is equity or fixed-income or balanced
+      if (funds[i].fixedIncomeSectors == null) {
+
+        // Push the sectors of filtered funds to an array
+        filteredFundsSectors.push(funds[i].equitySectors);
+
+      } else if (funds[i].equitySectors == null) {
+        filteredFundsSectors.push(funds[i].fixedIncomeSectors);
+
+      } else {
+        filteredFundsSectors.push(funds[i].equitySectors);
+        filteredFundsSectors.push(funds[i].fixedIncomeSectors);
+      }
+
+      // Remove duplicate elements
+      filteredFundsSectors = filteredFundsSectors.flat();
+
+      // Compare sectors of filtered funds and the sectors user selected and assign to an array
+      match = filteredFundsSectors.filter(el => eqSectors.includes(el) || fISectors.includes(el));
+
+      if (match.length > 0) {
+        matchedFunds.push(funds[i]);
+      }
+    }
+
+    return matchedFunds;
   }
 
   switch(step) {

@@ -27,6 +27,9 @@ function Region ({showResult, prevStep, handleChange}) {
         <label htmlFor="us">
           <input type="radio" id="us" name="region" value="US" onChange={handleChange('region')}/>US
         </label>
+        <label htmlFor="north-america">
+          <input type="radio" id="north-america" name="region" value="North America" onChange={handleChange('region')}/>North America
+        </label>
         <label htmlFor='europe'>
           <input type="radio" id="europe" name="region" value="Europe" onChange={handleChange('region')}/>Europe
         </label>

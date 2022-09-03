@@ -3,27 +3,22 @@ import Form from "./components/Form";
 import './App.css';
 
 const query = `
-  {
-    sectorCollection {
-      items {
-        sector
-        linkedFrom {
-          fundCollection {
-            items {
-              fundCode
-              fundName
-              managed
-              minInvest
-              pageLink
-              region
-              type
-              volatility
-            }
-          }
-        }
-      }
+{
+  fundCollection {
+    items { 
+      equitySectors
+      fixedIncomeSectors
+      fundName
+      fundCode
+      managed
+      minInvest
+      pageLink
+      region
+      type
+      volatility
     }
   }
+}
 `
 
 function App() {
@@ -51,9 +46,9 @@ function App() {
         }
 
         // rerender the entire component with new data
-        setFunds(data.sectorCollection.items);
+        setFunds(data.fundCollection.items);
       });
-  }, []);
+  });
 
   if (!funds) {
     return "Loading...";

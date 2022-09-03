@@ -119,6 +119,7 @@ ul {
   color: #333333;
   list-style: none;
   line-height: 200%;
+  padding-left: 10px;
 }
 
 ul li:before {
