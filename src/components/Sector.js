@@ -1,15 +1,31 @@
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
-function Sector ({nextStep, prevStep, formValue, handleCheckbox, handleCheckboxAll}) {
+function Sector ({nextStep, prevStep, formValue, handleCheckbox, handleCheckboxAll, populatePage}) {
+  useEffect(() => {populatePage();}, []);
+
   const next = e => {
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');
-    if (selected.length < 1) {
-      alert('Please select at least one sector.')
-    } else {
-      nextStep();
+    let selectedEq = document.querySelectorAll('input[name=equitySectors]:checked');
+    let selectedFI = document.querySelectorAll('input[name=fixedIncomeSectors]:checked');
+
+    if (type === 'Equity' || type === 'Fixed Icnome') {
+      if (selected.length < 1) {
+        toast.error('Please select at least one sector.')
+      } else {
+        nextStep();
+      }
+    }
+
+    if (type === 'Balanced') {
+      if (selectedEq.length < 1 || selectedFI.length < 1) {
+        toast.error('Please select at least one from each type');
+      } else {
+        nextStep()
+      } 
     }
   }
 

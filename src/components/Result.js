@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
-function Result ({prevStep, startOver, formValue}) {
+function Result ({prevStep, startOver, formValue, populatePage}) {
+  useEffect(() => {populatePage();}, []);
+
   const back = e => {
     e.preventDefault();
     prevStep();

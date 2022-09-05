@@ -1,12 +1,16 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
-function Volatility ({nextStep, prevStep, handleChange}) {
+function Volatility ({nextStep, prevStep, handleChange, populatePage}) {
+  useEffect(() => {populatePage();}, []);
+
   const next = e => {
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');
     if (selected.length < 1) {
-      alert('Please select one.')
+      toast.error('Please select one.')
     } else {
       nextStep();
     }

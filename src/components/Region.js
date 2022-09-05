@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 
-function Region ({showResult, prevStep, handleChange}) {
+function Region ({showResult, prevStep, handleChange, populatePage}) {
+  useEffect(() => {populatePage();}, []);
+
   const result = e => {
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');

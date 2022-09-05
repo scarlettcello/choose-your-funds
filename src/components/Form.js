@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Start from './Start';
 import MinInvest from './MinInvest';
 import Managed from './Managed';
@@ -8,7 +9,7 @@ import Sector from './Sector';
 import Region from './Region';
 import Result from './Result';
 
-function Form ({fundsData}) {
+function Form ({fundsData, pagesData}) {
   const [formValue, setFormValue] = useState({
     step: 0,
     minInvest: "",
@@ -21,7 +22,33 @@ function Form ({fundsData}) {
     yourFunds: {}
   });
 
+  const [pageContent, setPageContent] = useState({
+    step: 0,
+    heading: '',
+    body: ''
+  });
+
   let {step, minInvest, managed, volatility, equitySectors, fixedIncomeSectors, region} = formValue;
+
+  const populatePage = () => {
+    let content;
+    content = pagesData.filter(item => item.step === step);
+
+    setPageContent((prevState) => {
+      return {
+        ...prevState,
+        step: content[0].step,
+        heading: content[0].heading,
+        body: content[0].body
+      }
+    }); 
+  }
+
+  const heading  = document.querySelector('h1');
+  const body = document.querySelector('p');
+  
+  if (heading !== null) heading.innerHTML = pageContent.heading;
+  if (body !== null) body.innerHTML = pageContent.body;
 
   const nextStep = () => {
     setFormValue((prevState) => {
@@ -51,6 +78,7 @@ function Form ({fundsData}) {
   }
 
   const handleChange = input => e => {
+    toast.dismiss();
     setFormValue((prevState) => {
       return {
         ...prevState,
@@ -74,9 +102,7 @@ function Form ({fundsData}) {
     const eqOptions = document.querySelectorAll('input[name=equitySectors]');
     const fIOptions = document.querySelectorAll('input[name=fixedIncomeSectors]');
 
-    console.log(eqOptions);
-    console.log(fIOptions);
-    console.log(checkAllEq.checked);
+    toast.dismiss();
 
     // If "Select All" checkbox is checked, mark all options as checked and add 'is-checked' class
     // If "Select All" checkbox is unchecked, mark all options as unchecked and remove 'is-checked' class
@@ -120,6 +146,8 @@ function Form ({fundsData}) {
     let options = document.querySelectorAll('input[type=checkbox]');
     let checked = document.querySelectorAll('input:checked');
     let values = [];
+
+    toast.dismiss();
 
     options.forEach(el => {
       if (el.checked ) {
@@ -203,18 +231,24 @@ function Form ({fundsData}) {
   switch(step) {
     case 0:
       return (
-        <Start nextStep={nextStep} />
+        <Start 
+          populatePage={populatePage}
+          nextStep={nextStep} 
+        />
       )
     case 1:
       return (
         <MinInvest 
+          populatePage={populatePage}
+          handleChange={handleChange} 
           prevStep={prevStep} 
           nextStep={nextStep} 
-          handleChange={handleChange} />
+        />
       )
     case 2:
       return (
-        <Managed 
+        <Managed
+          populatePage={populatePage}
           prevStep={prevStep} 
           nextStep={nextStep} 
           handleChange={handleChange} />
@@ -222,20 +256,23 @@ function Form ({fundsData}) {
     case 3:
       return (
         <Type 
+          populatePage={populatePage}
           prevStep={prevStep} 
           nextStep={nextStep} 
           handleChange={handleChange} />
       )
     case 4:
       return (
-        <Volatility 
+        <Volatility
+          populatePage={populatePage}
           prevStep={prevStep} 
           nextStep={nextStep} 
           handleChange={handleChange} />
       )
     case 5:
       return (
-        <Sector 
+        <Sector
+          populatePage={populatePage}
           prevStep={prevStep} 
           nextStep={nextStep} 
           formValue={formValue}
@@ -244,14 +281,16 @@ function Form ({fundsData}) {
       )
     case 6:
       return (
-        <Region 
+        <Region
+          populatePage={populatePage}
           prevStep={prevStep} 
           showResult={showResult} 
           handleChange={handleChange} />
       )
     case 7:
       return (
-        <Result 
+        <Result
+          populatePage={populatePage}
           prevStep={prevStep}
           startOver={startOver}
           formValue={formValue}/>

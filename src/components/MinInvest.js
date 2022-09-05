@@ -1,12 +1,16 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
-function MinInvest ({nextStep, prevStep, handleChange}) {
+function MinInvest ({nextStep, prevStep, handleChange, populatePage}) {
+  useEffect(() => {populatePage();}, []);
+
   const next = e => {
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');
     if (selected.length < 1) {
-      alert('Please select your answer')
+      toast.error('Please select your answer')
     } else {
       nextStep();
     }
@@ -19,7 +23,7 @@ function MinInvest ({nextStep, prevStep, handleChange}) {
 
   return (
     <div className="container">
-      <h1>How much would you like to invest initially?</h1>
+      <h1></h1>
       <div className="options">
         <label htmlFor="min-none">
           <input type="radio" id="min-none" name="minInvest" value="None" onChange={handleChange('minInvest')}/>
@@ -30,6 +34,7 @@ function MinInvest ({nextStep, prevStep, handleChange}) {
           At least $500
         </label>
       </div>
+      <p></p>
       <div className="steps">
         <div className="btn-area" onClick={back}>
           <FontAwesomeIcon icon={faAnglesLeft} className="secondary"/>

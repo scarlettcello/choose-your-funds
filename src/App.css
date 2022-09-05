@@ -4,18 +4,27 @@ body {
 
 h1 {
   color: #333333;
-  font-size: 28px;
+  font-size: 26px;
 }
 
 h2 {
   color: #696969;
+  font-size: 22px;
+}
+
+.wrapper {
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
+  background-color: #fff;
+  margin: 20px;
   width: 400px;
-  margin: auto;
-  position: relative;
   padding: 20px;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
 }
 
 .btn-start {

@@ -1,9 +1,19 @@
 import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Form from "./components/Form";
 import './App.css';
 
 const query = `
 {
+  pageCollection {
+    items {
+      step
+      heading
+      body
+    }
+  }
   fundCollection {
     items { 
       equitySectors
@@ -26,6 +36,7 @@ function App() {
   const apiKey = process.env.REACT_APP_CONTENTFUL_API_KEY;
 
   const [funds, setFunds] = useState(null);
+  const [pages, setPages] = useState(null);
 
   useEffect(() => {
     window
@@ -47,17 +58,19 @@ function App() {
 
         // rerender the entire component with new data
         setFunds(data.fundCollection.items);
+        setPages(data.pageCollection.items);
       });
-  });
+  }, []);
 
   if (!funds) {
     return "Loading...";
   }
 
   return (
-    <>
-      <Form fundsData={funds} />
-    </>
+    <div className='wrapper'>
+      <Form fundsData={funds} pagesData={pages} />
+      <ToastContainer />
+    </div>
   );
 }
 
