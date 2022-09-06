@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 function Region ({showResult, prevStep, handleChange, populatePage}) {
   useEffect(() => {populatePage();}, []);
@@ -9,7 +10,7 @@ function Region ({showResult, prevStep, handleChange, populatePage}) {
     e.preventDefault();
     let selected = document.querySelectorAll('input:checked');
     if (selected.length < 1) {
-      alert('Please select the region.')
+      toast.error('Please select the region.')
     } else {
       showResult();
     }
