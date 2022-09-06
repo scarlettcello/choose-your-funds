@@ -12,7 +12,7 @@ function Sector ({nextStep, prevStep, formValue, handleCheckbox, handleCheckboxA
     let selectedEq = document.querySelectorAll('input[name=equitySectors]:checked');
     let selectedFI = document.querySelectorAll('input[name=fixedIncomeSectors]:checked');
 
-    if (type === 'Equity' || type === 'Fixed Icnome') {
+    if (type === 'Equity' || type === 'Fixed Income') {
       if (selected.length < 1) {
         toast.error('Please select at least one sector.')
       } else {

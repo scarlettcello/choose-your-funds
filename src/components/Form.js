@@ -28,7 +28,7 @@ function Form ({fundsData, pagesData}) {
     body: ''
   });
 
-  let {step, minInvest, managed, volatility, equitySectors, fixedIncomeSectors, region} = formValue;
+  let {step, minInvest, managed, volatility, equitySectors, fixedIncomeSectors, region, type} = formValue;
 
   const populatePage = () => {
     let content;
@@ -134,18 +134,33 @@ function Form ({fundsData, pagesData}) {
       values.push(el.value);
     });
 
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        sector: values
-      }
-    });
+    if (checkAllEq.checked) {
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          equitySectors: values,
+          fixedIncomeSectors: []
+        }
+      });
+    }
+
+    if (checkAllFI.checked) {
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          equitySectors: [],
+          fixedIncomeSectors: values
+        }
+      });
+    }
   }
 
   const handleCheckbox = input => e => {
     let options = document.querySelectorAll('input[type=checkbox]');
-    let checked = document.querySelectorAll('input:checked');
-    let values = [];
+    let eqChecked = document.querySelectorAll('input[name=equitySectors]:checked');
+    let fIChecked = document.querySelectorAll('input[name=fixedIncomeSectors]:checked');
+    let eqValues = [];
+    let fIValues = [];
 
     toast.dismiss();
 
@@ -157,17 +172,38 @@ function Form ({fundsData, pagesData}) {
       }
     });
 
-    checked.forEach(el => {
-      values.push(el.value);
-    });
+    if (type === 'Equity' && eqChecked.length > 0) {
+      eqChecked.forEach(el => eqValues.push(el.value));
 
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        equitySectors: values,
-        fixedIncomeSectors: values
-      }
-    });
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          equitySectors: eqValues,
+          fixedIncomeSectors: []
+        }
+      });
+    } else if (type === 'Fixed Income' && fIChecked.length > 0) {
+      fIChecked.forEach(el => fIValues.push(el.value));
+
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          equitySectors: [],
+          fixedIncomeSectors: fIValues,
+        }
+      });
+    } else {
+      eqChecked.forEach(el => eqValues.push(el.value));
+      fIChecked.forEach(el => fIValues.push(el.value));
+
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          equitySectors: eqValues,
+          fixedIncomeSectors: fIValues,
+        }
+      });
+    }   
   }
 
   const showResult = () => {
@@ -181,8 +217,10 @@ function Form ({fundsData, pagesData}) {
       .filter(el => el.managed === isManaged)
       .filter(el => el.volatility === volatility)
       .filter(el => el.region === region);
-
-    let yourFunds = compareSectors(filtered, equitySectors, fixedIncomeSectors);
+    
+    let yourFunds = [];
+    yourFunds = compareSectors(filtered, equitySectors, fixedIncomeSectors);
+    console.log(yourFunds);
     
     setFormValue((prevState) => {
       return { 
@@ -204,26 +242,23 @@ function Form ({fundsData, pagesData}) {
       if (funds[i].fixedIncomeSectors == null) {
 
         // Push the sectors of filtered funds to an array
-        filteredFundsSectors.push(funds[i].equitySectors);
+        filteredFundsSectors = [ ...funds[i].equitySectors];
 
       } else if (funds[i].equitySectors == null) {
-        filteredFundsSectors.push(funds[i].fixedIncomeSectors);
+        filteredFundsSectors = [ ...funds[i].fixedIncomeSectors];
 
       } else {
-        filteredFundsSectors.push(funds[i].equitySectors);
-        filteredFundsSectors.push(funds[i].fixedIncomeSectors);
+        filteredFundsSectors = [...funds[i].equitySectors];
+        filteredFundsSectors = [...funds[i].fixedIncomeSectors];
       }
-
-      // Remove duplicate elements
-      filteredFundsSectors = filteredFundsSectors.flat();
-
       // Compare sectors of filtered funds and the sectors user selected and assign to an array
       match = filteredFundsSectors.filter(el => eqSectors.includes(el) || fISectors.includes(el));
-
+console.log(filteredFundsSectors);
+console.log(match);
       if (match.length > 0) {
         matchedFunds.push(funds[i]);
       }
-    }
+    }   
 
     return matchedFunds;
   }
