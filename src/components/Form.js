@@ -220,7 +220,6 @@ function Form ({fundsData, pagesData}) {
     
     let yourFunds = [];
     yourFunds = compareSectors(filtered, equitySectors, fixedIncomeSectors);
-    console.log(yourFunds);
     
     setFormValue((prevState) => {
       return { 
@@ -251,10 +250,10 @@ function Form ({fundsData, pagesData}) {
         filteredFundsSectors = [...funds[i].equitySectors];
         filteredFundsSectors = [...funds[i].fixedIncomeSectors];
       }
+      
       // Compare sectors of filtered funds and the sectors user selected and assign to an array
       match = filteredFundsSectors.filter(el => eqSectors.includes(el) || fISectors.includes(el));
-console.log(filteredFundsSectors);
-console.log(match);
+
       if (match.length > 0) {
         matchedFunds.push(funds[i]);
       }
