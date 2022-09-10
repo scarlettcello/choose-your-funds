@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faAnglesRight, faGaugeSimple, faGaugeSimpleHigh} from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 function MinInvest ({nextStep, prevStep, handleChange, populatePage}) {
@@ -24,14 +24,16 @@ function MinInvest ({nextStep, prevStep, handleChange, populatePage}) {
   return (
     <div className="container">
       <h1></h1>
-      <div className="options">
+      <div className="options min-invest">
         <label htmlFor="min-none">
           <input type="radio" id="min-none" name="minInvest" value="None" onChange={handleChange('minInvest')}/>
-          No minimum
+          <FontAwesomeIcon icon={faGaugeSimple} size="3x"/>
+          <span>No minimum</span>
         </label>
         <label htmlFor="min-500">
           <input type="radio" id="min-500" name="minInvest" value="500" onChange={handleChange('minInvest')}/>
-          At least $500
+          <FontAwesomeIcon icon={faGaugeSimpleHigh} size="3x"/>
+          <span>At least $500</span>
         </label>
       </div>
       <p></p>

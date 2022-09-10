@@ -24,27 +24,30 @@ function Volatility ({nextStep, prevStep, handleChange, populatePage}) {
   return (
     <div className='container'>
       <h1>How much volatility can you tolerate?</h1>
-      <div className="options">
-        <label htmlFor="low">
-          <input type="radio" id="low" name="volatility" value="Low" 
-          onChange={handleChange('volatility')}/>Low
-        </label>
-        <label htmlFor="low-med">
-          <input type="radio" id="low-med" name="volatility" value="Low-medium" 
-          onChange={handleChange('volatility')}/>Low to Medium
-        </label>
-        <label htmlFor='med'>
-          <input type="radio" id="med" name="volatility" value="Medium" 
-          onChange={handleChange('volatility')}/>Medium
-        </label>
-        <label htmlFor='med-high'>
-          <input type="radio" id="med-high" name="volatility" value="Medium-high" 
-          onChange={handleChange('volatility')}/>Medium to High
-        </label>
-        <label htmlFor='high'>
-          <input type="radio" id="high" name="volatility" value="High" 
-          onChange={handleChange('volatility')}/>High
-        </label>
+      <div className="options-container">
+        <div className="bar"></div>
+        <div className="options volatility">
+          <label htmlFor="low">
+            <input type="radio" id="low" name="volatility" value="Low" 
+            onChange={handleChange('volatility')}/><span>Low</span>
+          </label>
+          <label htmlFor="low-med">
+            <input type="radio" id="low-med" name="volatility" value="Low-medium" 
+            onChange={handleChange('volatility')}/><span>Low-med</span>
+          </label>
+          <label htmlFor='med'>
+            <input type="radio" id="med" name="volatility" value="Medium" 
+            onChange={handleChange('volatility')}/><span>Med</span>
+          </label>
+          <label htmlFor='med-high'>
+            <input type="radio" id="med-high" name="volatility" value="Medium-high" 
+            onChange={handleChange('volatility')}/><span>Med-high</span>
+          </label>
+          <label htmlFor='high'>
+            <input type="radio" id="high" name="volatility" value="High" 
+            onChange={handleChange('volatility')}/><span>High</span>
+          </label>
+        </div>
       </div>
       <div className="steps">
         <div className="btn-area" onClick={back}>

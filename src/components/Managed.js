@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faAnglesRight, faPerson, faPersonRunning } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 function Managed ({nextStep, prevStep, handleChange, populatePage}) {
@@ -24,12 +24,16 @@ function Managed ({nextStep, prevStep, handleChange, populatePage}) {
   return (
     <div className="container">
       <h1></h1>
-      <div className="options">
+      <div className="options management">
         <label htmlFor="managed">
-        <input type="radio" id="managed" name="managed" value="true" onChange={handleChange('managed')} />Active Management
+        <input type="radio" id="managed" name="managed" value="true" onChange={handleChange('managed')} />
+        <FontAwesomeIcon icon={faPersonRunning} size="3x"/>
+        <span>Active Management</span>        
         </label>
         <label htmlFor="unmanaged">
-        <input type="radio" id="unmanaged" name="managed" value="false" onChange={handleChange('managed')}/>Passive Management
+        <input type="radio" id="unmanaged" name="managed" value="false" onChange={handleChange('managed')}/>
+        <FontAwesomeIcon icon={faPerson} size="3x"/>
+        <span>Passive Management</span>
         </label>
       </div>
       <p></p>
